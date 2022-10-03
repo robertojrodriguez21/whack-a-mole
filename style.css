@@ -84,7 +84,8 @@ main {
   height: 100px;
   width: 100px;
   margin: 10px;
-  background-color: lightblue;
+  background-color: black;
+  border-radius: 50%;
 }
 
 footer {
