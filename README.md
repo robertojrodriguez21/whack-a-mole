@@ -1,4 +1,4 @@
-# whack-a-mole
+# Whack-a-Mole
 
 ### By: Roberto J Rodriguez
 
@@ -8,13 +8,13 @@
 
 ## Trello Board
 
-[Whack-A-Mole Trello Board](https://trello.com/b/jqjNN3Wt/whack-a-mole)
+[Whack-a-Mole Trello Board](https://trello.com/b/jqjNN3Wt/whack-a-mole)
 
 ---
 
 ## Description
 
-### What is Whack-A-Mole?
+### What is Whack-a-Mole?
 
 #### A certain number of holes in the play area top are filled with small, plastic, cartoonish moles, which pop up at random. Points are scored by whacking each mole as it appears.
 
