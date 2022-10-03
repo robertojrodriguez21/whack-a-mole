@@ -17,6 +17,10 @@ body {
   grid-template-rows: 100px 1fr 100px;
 }
 
+button {
+  border-color: black;
+}
+
 /* Landing Page */
 #landingTitle, #landingPlayGame {
   display: flex;
@@ -37,6 +41,10 @@ body {
   background-color: red;
   color: white;
   border-radius: 100%;
+}
+
+#playGameButton:hover {
+  background-color: darkred;
 }
 
 #landingTitle {
@@ -93,6 +101,18 @@ footer {
   background-color: red;
   color: white;
   padding: 5px;
+}
+
+#game button:hover {
+  background-color: darkred;
+}
+
+#game #startGameButton {
+  background-color: green;
+}
+
+#game #startGameButton:hover {
+  background-color: limegreen;
 }
 
 header, footer {
