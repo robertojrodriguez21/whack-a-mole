@@ -27,7 +27,7 @@ body {
   font-weight: bolder;
 }
 
-#landingButton {
+#playGameButton {
   font-size: 20px;
   display: flex;
   justify-content: center;
@@ -49,6 +49,7 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 30px;
+  font-weight: bolder;
   padding: 10px;
 }
 
@@ -60,8 +61,38 @@ main {
 
 }
 
-footer {
+#gameboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  justify-items: center;
+}
 
+.gameboardBox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: #426b1f solid 1px;
+  height: 100px;
+  width: 100px;
+  margin: 10px;
+  background-color: lightblue;
+}
+
+footer {
+  display: flex;
+  justify-content:  center;
+  align-items: center;
+}
+
+#game div {
+  padding: 10px;
+}
+
+#game button {
+  background-color: red;
+  color: white;
+  padding: 5px;
 }
 
 header, footer {
