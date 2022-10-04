@@ -36,6 +36,7 @@ const sleep = (ms) => {
 
 const startGame = async () => {
   if (!gameStarted) {
+    startGameButton.disabled = true
     gameStarted = true
 
     cleanBoard()
@@ -56,10 +57,11 @@ const startGame = async () => {
       while (gameboardBoxes[randomIndex] === 1) {
         randomIndex = Math.floor(Math.random() * 25)
       }
+
       gameboardBoxesValues[randomIndex] = 1
       gameboardBoxes[randomIndex].style.backgroundColor = `brown`
-      console.log(`timeout 1sec`)
       await sleep(1000)
+
       gameTimer--
     }
   }
@@ -70,12 +72,14 @@ const cleanBoard = () => {
     gameboardBoxes[i].style.backgroundColor = `black`
     gameboardBoxesValues[i] = 0
     gameTimer = 10
+    gameStarted = false
+    startGameButton.disabled = true
   }
 }
 
 const setHole = (gameboardBox) => {
-  gameboardBoxes[gameboardBox].style.backgroundColor = `green`
-  gameboardBoxesValues[gameboardBox] = 2
+  gameboardBoxes[gameboardBox].style.backgroundColor = `black`
+  gameboardBoxesValues[gameboardBox] = 0
 }
 
 // Logic
