@@ -20,11 +20,12 @@ if (homeButton) {
 // Variables
 let gameTimer = 10
 let randomIndex = 0
-/* 0=Unhit, 1=Mole Up, 2=Hit */
+let gameStarted = false
 const gameboardBoxesValues = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ]
 
+// Document Selectors
 const gameboardBoxes = document.querySelectorAll(`.gameboardBox`)
 const startGameButton = document.getElementById(`startGameButton`)
 
@@ -34,37 +35,43 @@ const sleep = (ms) => {
 }
 
 const startGame = async () => {
+  if (!gameStarted) {
+    gameStarted = true
+
+    cleanBoard()
+
+    for (let i = 0; i < gameboardBoxes.length; i++) {
+      gameboardBoxes[i].addEventListener(`click`, () => {
+        if (gameboardBoxesValues[i] === 1 || gameboardBoxesValues[i] === 2) {
+          gameboardBoxes[i].style.backgroundColor = `yellow`
+          setTimeout(() => {
+            setHole(i)
+          }, `500`)
+        }
+      })
+    }
+
+    while (gameTimer !== 0) {
+      randomIndex = Math.floor(Math.random() * 25)
+      while (gameboardBoxes[randomIndex] === 1) {
+        randomIndex = Math.floor(Math.random() * 25)
+      }
+      gameboardBoxesValues[randomIndex] = 1
+      gameboardBoxes[randomIndex].style.backgroundColor = `brown`
+      console.log(`timeout 1sec`)
+      await sleep(1000)
+      gameTimer--
+    }
+  }
+}
+
+const cleanBoard = () => {
   for (let i = 0; i < gameboardBoxesValues.length; i++) {
     gameboardBoxes[i].style.backgroundColor = `black`
     gameboardBoxesValues[i] = 0
     gameTimer = 10
   }
-
-  for (let i = 0; i < gameboardBoxes.length; i++) {
-    gameboardBoxes[i].addEventListener(`click`, () => {
-      if (gameboardBoxesValues[i] === 1) {
-        gameboardBoxes[i].style.backgroundColor = `yellow`
-        setTimeout(() => {
-          setHole(i)
-        }, `500`)
-      }
-    })
-  }
-
-  while (gameTimer !== 0) {
-    randomIndex = Math.floor(Math.random() * 25)
-    while (gameboardBoxes[randomIndex] === 1) {
-      randomIndex = Math.floor(Math.random() * 25)
-    }
-    gameboardBoxesValues[randomIndex] = 1
-    gameboardBoxes[randomIndex].style.backgroundColor = `brown`
-    await sleep(1000)
-    console.log(`timeout 1sec`)
-    gameTimer--
-  }
 }
-
-const setMole = () => {}
 
 const setHole = (gameboardBox) => {
   gameboardBoxes[gameboardBox].style.backgroundColor = `green`
@@ -73,9 +80,3 @@ const setHole = (gameboardBox) => {
 
 // Logic
 startGameButton.addEventListener('click', startGame)
-
-// for (let i = 0; i < gameboardBoxes.length; i++) {
-//   gameboardBoxes[i].addEventListener(`click`, () => {
-//     gameboardBoxes[i].style.backgroundColor = `yellow`
-//   })
-// }
