@@ -13,8 +13,8 @@ body {
   height: 100vh;
 
   display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  grid-template-rows: 100px 1fr 100px;
+  grid-template-columns: 1fr 610px 1fr;
+  grid-template-rows: 100px 610px 1fr;
 }
 
 button {
@@ -92,6 +92,7 @@ footer {
   display: flex;
   justify-content:  center;
   align-items: center;
+  padding: 10px;
 }
 
 #game div {

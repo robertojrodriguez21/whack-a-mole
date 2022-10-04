@@ -20,6 +20,7 @@ if (homeButton) {
 // Variables
 let gameTimer = 10
 let randomIndex = 0
+/* 0=Unhit, 1=Mole Up, 2=Hit */
 const gameboardBoxesValues = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ]
@@ -28,11 +29,24 @@ const gameboardBoxes = document.querySelectorAll(`.gameboardBox`)
 const startGameButton = document.getElementById(`startGameButton`)
 
 // Functions
-const startGame = () => {
+const sleep = (ms) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+const startGame = async () => {
+  for (let i = 0; i < gameboardBoxesValues.length; i++) {
+    gameboardBoxes[i].style.backgroundColor = `black`
+    gameboardBoxesValues[i] = 0
+    gameTimer = 10
+  }
+
   for (let i = 0; i < gameboardBoxes.length; i++) {
     gameboardBoxes[i].addEventListener(`click`, () => {
-      if (gameboardBoxes[i] === 1) {
-        gameboardBoxes[i].style.backgroundColor = `black`
+      if (gameboardBoxesValues[i] === 1) {
+        gameboardBoxes[i].style.backgroundColor = `yellow`
+        setTimeout(() => {
+          setHole(i)
+        }, `500`)
       }
     })
   }
@@ -43,17 +57,25 @@ const startGame = () => {
       randomIndex = Math.floor(Math.random() * 25)
     }
     gameboardBoxesValues[randomIndex] = 1
-    gameboardBoxes[randomIndex].style.backgroundColor = `yellow`
-    setInterval(2000)
+    gameboardBoxes[randomIndex].style.backgroundColor = `brown`
+    await sleep(1000)
+    console.log(`timeout 1sec`)
     gameTimer--
   }
+}
+
+const setMole = () => {}
+
+const setHole = (gameboardBox) => {
+  gameboardBoxes[gameboardBox].style.backgroundColor = `green`
+  gameboardBoxesValues[gameboardBox] = 2
 }
 
 // Logic
 startGameButton.addEventListener('click', startGame)
 
-for (let i = 0; i < gameboardBoxes.length; i++) {
-  gameboardBoxes[i].addEventListener(`click`, () => {
-    gameboardBoxes[i].style.backgroundColor = `yellow`
-  })
-}
+// for (let i = 0; i < gameboardBoxes.length; i++) {
+//   gameboardBoxes[i].addEventListener(`click`, () => {
+//     gameboardBoxes[i].style.backgroundColor = `yellow`
+//   })
+// }
