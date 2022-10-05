@@ -5,14 +5,12 @@ const homeButton = document.getElementById(`homeButton`)
 if (playGameButton) {
   playGameButton.addEventListener(`click`, () => {
     window.location.href = `game.html`
-    console.log(`click`)
   })
 }
 
 if (homeButton) {
   homeButton.addEventListener(`click`, () => {
     window.location.href = `index.html`
-    console.log(`click`)
   })
 }
 
@@ -42,7 +40,6 @@ const startGame = async () => {
     }
     gameStarted = false
   }
-  console.log(`${gameStarted}`)
 }
 
 // Mole Pop-Up
@@ -77,6 +74,7 @@ const resetBoard = () => {
 startGameButton.addEventListener(`click`, () => {
   if (!gameStarted) {
     gameStarted = true
+    gameTimer = 10
     startGame()
   }
 })
