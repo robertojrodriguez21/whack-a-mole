@@ -101,22 +101,39 @@ footer {
 }
 
 #game button {
-  background-color: red;
-  color: white;
   padding: 5px;
 }
 
-#game button:hover {
+#game #resetGameButton {
+  background-color: red;
+  color: black;
+}
+
+#game #resetGameButton:hover {
   background-color: darkred;
+  color: white;
 }
 
-#game #startGameButton {
+#game #homeButton {
+  background-color: blue;
+  color: white;
+}
+
+#game #homeButton:hover {
+  background-color: lightblue;
+  color: black;
+}
+
+#game #startGameButton, #game #startOverButton  {
   background-color: green;
+  color: white;
 }
 
-#game #startGameButton:hover {
+#game #startGameButton:hover, #game #startOverButton:hover {
   background-color: limegreen;
+  color: black;
 }
+
 
 header, footer {
   grid-column: span 3;

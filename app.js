@@ -20,6 +20,7 @@ let gameTimer = 10
 let randomIndex = 0
 let gameStarted = false
 let score = 0
+let highScore = 0
 const boardgameBoxesValues = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ]
@@ -28,17 +29,19 @@ const boardgameBoxesValues = [
 const boardgameBoxes = document.querySelectorAll(`.boardgameBox`)
 const startGameButton = document.getElementById(`startGameButton`)
 const resetGameButton = document.getElementById(`resetGameButton`)
+const startOverButton = document.getElementById(`startOverButton`)
+const scoreText = document.getElementById(`scoreText`)
+const highScoreText = document.getElementById(`highScoreText`)
 
 // Functions
 // Start Game
 const startGame = async () => {
+  score = 0
   while (gameStarted) {
     while (gameTimer > 0) {
       let tempIndex = setMole()
       await new Promise((resolve) => setTimeout(resolve, 1500))
       console.log(`${boardgameBoxesValues}`)
-      console.log(tempIndex)
-      console.log(score)
       removeMole(tempIndex)
 
       gameTimer--
@@ -81,8 +84,25 @@ const resetBoard = () => {
   gameStarted = false
   gameTimer = 0
   for (let i = 0; i < boardgameBoxes.length; i++) {
-    boardgameBoxes[i].style.backgroundColor = `black`
-    boardgameBoxesValues[i] = 0
+    setHole(i)
+  }
+}
+
+const resetGame = () => {
+  resetBoard()
+  highScore = 0
+  score = 0
+  highScoreText.innerHTML = highScore
+  scoreText.innerHTML = score
+}
+
+// Tracks all score changes
+const scoreChange = () => {
+  score += 1000
+  scoreText.innerHTML = score
+  if (score > highScore) {
+    highScore = score
+    highScoreText.innerHTML = highScore
   }
 }
 
@@ -96,51 +116,16 @@ startGameButton.addEventListener(`click`, () => {
   }
 })
 // Reset Game (Score and Board)
-resetGameButton.addEventListener(`click`, resetBoard)
+resetGameButton.addEventListener(`click`, resetGame)
 // Mole Clicks
 for (let i = 0; i < boardgameBoxes.length; i++) {
   boardgameBoxes[i].addEventListener(`click`, async () => {
     if (boardgameBoxesValues[i] === 1) {
       boardgameBoxes[i].style.backgroundColor = `green`
-      score += 1000
+      scoreChange()
 
       await new Promise((resolve) => setTimeout(resolve, 500))
       setHole(i)
     }
   })
 }
-// Mole Disappears
-// for (let i = 0; i < boardgameBoxes.length; i++) {
-//   boardgameBoxes[i].addEventListener('change', async () => {
-//     await new Promise((resolve) => setTimeout(resolve, 500))
-//     boardgameBoxes[i].style.backgroundColor = `black`
-//     boardgameBoxesValues[i] = 0
-//   })
-// }
-
-// Style Change Observer
-// Select the node that will be observed for mutations
-// let targetNode
-
-// // Options for the observer (which mutations to observe)
-// const config = { attributes: true, attributesFilter: [`style`] }
-
-// // Callback function to execute when mutations are observed
-// const callback = (mutationList, observer, boardgameBoxIndex) => {
-//   for (const mutation of mutationList) {
-//     if (mutation.type === 'attributes') {
-//       console.log(
-//         `The ${mutation.attributeName} attribute was modified at box ${boardgameBoxIndex}.`
-//       )
-//     }
-//   }
-// }
-
-// // Create an observer instance linked to the callback function
-// const observer = new MutationObserver(callback)
-
-// // Start observing the target node for configured mutations
-// for (let i = 0; i < boardgameBoxes.length; i++) {
-//   targetNode = boardgameBoxes[i]
-//   observer.observe(targetNode, config, i)
-// }
