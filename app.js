@@ -1,4 +1,4 @@
-// Page Select
+// PAGE SELECT
 const playGameButton = document.getElementById(`playGameButton`)
 const homeButton = document.getElementById(`homeButton`)
 
@@ -16,7 +16,7 @@ if (homeButton) {
   })
 }
 
-// Game
+// GAME
 // Variables
 let gameTimer = 10
 let randomIndex = 0
@@ -28,59 +28,67 @@ const gameboardBoxesValues = [
 // Document Selectors
 const gameboardBoxes = document.querySelectorAll(`.gameboardBox`)
 const startGameButton = document.getElementById(`startGameButton`)
+const resetGameButton = document.getElementById(`resetGameButton`)
 
 // Functions
-const sleep = (ms) => {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
+// Start Game
 const startGame = async () => {
-  if (!gameStarted) {
-    startGameButton.disabled = true
-    gameStarted = true
-
-    cleanBoard()
-
-    for (let i = 0; i < gameboardBoxes.length; i++) {
-      gameboardBoxes[i].addEventListener(`click`, () => {
-        if (gameboardBoxesValues[i] === 1 || gameboardBoxesValues[i] === 2) {
-          gameboardBoxes[i].style.backgroundColor = `yellow`
-          setTimeout(() => {
-            setHole(i)
-          }, `500`)
-        }
-      })
-    }
-
-    while (gameTimer !== 0) {
-      randomIndex = Math.floor(Math.random() * 25)
-      while (gameboardBoxes[randomIndex] === 1) {
-        randomIndex = Math.floor(Math.random() * 25)
-      }
-
-      gameboardBoxesValues[randomIndex] = 1
-      gameboardBoxes[randomIndex].style.backgroundColor = `brown`
-      await sleep(1000)
-
+  while (gameStarted) {
+    while (gameTimer > 0) {
+      setMole()
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+      console.log(`${gameboardBoxesValues}`)
       gameTimer--
     }
+    gameStarted = false
   }
+  console.log(`${gameStarted}`)
 }
 
-const cleanBoard = () => {
-  for (let i = 0; i < gameboardBoxesValues.length; i++) {
+// Mole Pop-Up
+const setMole = () => {
+  randomIndex = Math.floor(Math.random() * gameboardBoxes.length)
+  while (gameboardBoxesValues[randomIndex] === 1) {
+    randomIndex = Math.floor(Math.random() * gameboardBoxes.length)
+  }
+
+  gameboardBoxes[randomIndex].style.backgroundColor = `brown`
+  gameboardBoxesValues[randomIndex] = 1
+}
+
+// Remove Mole and Set Hole
+const setHole = (box) => {
+  gameboardBoxes[box].style.backgroundColor = `black`
+  gameboardBoxesValues[box] = 0
+}
+
+// Reset Board and Score
+const resetBoard = () => {
+  gameStarted = false
+  gameTimer = 0
+  for (let i = 0; i < gameboardBoxes.length; i++) {
     gameboardBoxes[i].style.backgroundColor = `black`
     gameboardBoxesValues[i] = 0
-    gameTimer = 10
-    gameStarted = false
-    startGameButton.disabled = true
   }
 }
 
-const setHole = (gameboardBox) => {
-  gameboardBoxes[gameboardBox].style.backgroundColor = `black`
-  gameboardBoxesValues[gameboardBox] = 0
+// Game Logic
+// Start Game
+startGameButton.addEventListener(`click`, () => {
+  if (!gameStarted) {
+    gameStarted = true
+    startGame()
+  }
+})
+// Reset Game (Score and Board)
+resetGameButton.addEventListener(`click`, resetBoard)
+// Mole Clicks
+for (let i = 0; i < gameboardBoxes.length; i++) {
+  gameboardBoxes[i].addEventListener(`click`, async () => {
+    if (gameboardBoxesValues[i] === 1) {
+      gameboardBoxes[i].style.backgroundColor = `green`
+      await new Promise((resolve) => setTimeout(resolve, 500))
+      setHole(i)
+    }
+  })
 }
-
-// Logic
-startGameButton.addEventListener('click', startGame)
