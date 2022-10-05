@@ -61,14 +61,6 @@ button {
   padding: 10px;
 }
 
-aside {
-
-}
-
-main {
-
-}
-
 #boardgame {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;

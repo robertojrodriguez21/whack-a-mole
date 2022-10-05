@@ -24,6 +24,10 @@ let highScore = 0
 const boardgameBoxesValues = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ]
+const numberOne = [1, 2, 7, 12, 17, 21, 22, 23]
+const numberTwo = [1, 2, 8, 11, 12, 13, 16, 21, 22, 23]
+const numberThree = [1, 2, 3, 8, 11, 12, 13, 18, 21, 22, 23]
+const xShape = [0, 4, 6, 8, 12, 16, 18, 20, 24]
 
 // Document Selectors
 const boardgameBoxes = document.querySelectorAll(`.boardgameBox`)
@@ -37,6 +41,8 @@ const highScoreText = document.getElementById(`highScoreText`)
 // Start Game
 const startGame = async () => {
   score = 0
+  startGameCountdown()
+  await new Promise((resolve) => setTimeout(resolve, 3500))
   while (gameStarted) {
     while (gameTimer > 0) {
       let tempIndex = setMole()
@@ -47,6 +53,32 @@ const startGame = async () => {
       gameTimer--
     }
     gameStarted = false
+  }
+  await new Promise((resolve) => setTimeout(resolve, 1500))
+  endGame()
+}
+
+const startGameCountdown = async () => {
+  for (let i = 0; i < numberThree.length; i++) {
+    boardgameBoxes[numberThree[i]].style.backgroundColor = `red`
+  }
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  clearBoard()
+  for (let i = 0; i < numberTwo.length; i++) {
+    boardgameBoxes[numberTwo[i]].style.backgroundColor = `yellow`
+  }
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  clearBoard()
+  for (let i = 0; i < numberOne.length; i++) {
+    boardgameBoxes[numberOne[i]].style.backgroundColor = `green`
+  }
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+  clearBoard()
+}
+
+const endGame = () => {
+  for (let i = 0; i < xShape.length; i++) {
+    boardgameBoxes[xShape[i]].style.backgroundColor = `red`
   }
 }
 
@@ -64,9 +96,9 @@ const setMole = () => {
 }
 
 // Removes Mole After Timer
-removeMole = async (boxIndex) => {
+const removeMole = async (boxIndex) => {
   if (boardgameBoxesValues[boxIndex] === 1) {
-    boardgameBoxesValues[boxIndex] = 2
+    boardgameBoxesValues[boxIndex] = 3
     boardgameBoxes[boxIndex].style.backgroundColor = `red`
     await new Promise((resolve) => setTimeout(resolve, 1000))
     setHole(boxIndex)
@@ -83,9 +115,7 @@ const setHole = (box) => {
 const resetBoard = () => {
   gameStarted = false
   gameTimer = 0
-  for (let i = 0; i < boardgameBoxes.length; i++) {
-    setHole(i)
-  }
+  clearBoard()
 }
 
 const resetGame = () => {
@@ -94,6 +124,13 @@ const resetGame = () => {
   score = 0
   highScoreText.innerHTML = highScore
   scoreText.innerHTML = score
+}
+
+// Clears Board and Values
+const clearBoard = () => {
+  for (let i = 0; i < boardgameBoxes.length; i++) {
+    setHole(i)
+  }
 }
 
 // Tracks all score changes
@@ -118,8 +155,8 @@ startGameButton.addEventListener(`click`, () => {
 // Start Game Over (Reset Board)
 startOverButton.addEventListener(`click`, () => {
   resetBoard()
-  if (!gameStarted) {
-    gameStarted = true
+  if (gameStarted) {
+    gameStarted = false
     gameTimer = 10
     startGame()
   }
@@ -130,6 +167,7 @@ resetGameButton.addEventListener(`click`, resetGame)
 for (let i = 0; i < boardgameBoxes.length; i++) {
   boardgameBoxes[i].addEventListener(`click`, async () => {
     if (boardgameBoxesValues[i] === 1) {
+      boardgameBoxesValues[i] = 2
       boardgameBoxes[i].style.backgroundColor = `green`
       scoreChange()
 
