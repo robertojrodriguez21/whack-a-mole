@@ -89,10 +89,11 @@ main {
 }
 
 footer {
-  display: flex;
+  display: flex, grid;
   justify-content:  center;
   align-items: center;
   padding: 10px;
+  grid-template-rows: 2fr;
 }
 
 #game div {
@@ -119,4 +120,21 @@ footer {
 
 header, footer {
   grid-column: span 3;
+}
+
+#scores, #buttons {
+  display: flex;
+  grid-row: span 1;
+  justify-content:  center;
+  align-items: center;
+}
+
+footer #scores {
+  font-weight: bolder;
+  font-size: 25px;
+  padding: 0;
+}
+
+footer #highScoreTitle, footer #scoreTitle, footer #highScoreText, footer #scoreText {
+  padding: 5px;
 }
