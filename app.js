@@ -115,6 +115,15 @@ startGameButton.addEventListener(`click`, () => {
     startGame()
   }
 })
+// Start Game Over (Reset Board)
+startOverButton.addEventListener(`click`, () => {
+  resetBoard()
+  if (!gameStarted) {
+    gameStarted = true
+    gameTimer = 10
+    startGame()
+  }
+})
 // Reset Game (Score and Board)
 resetGameButton.addEventListener(`click`, resetGame)
 // Mole Clicks
