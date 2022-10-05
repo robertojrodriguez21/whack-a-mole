@@ -41,9 +41,9 @@ const highScoreText = document.getElementById(`highScoreText`)
 // Start Game
 const startGame = async () => {
   score = 0
-  startGameCountdown()
-  await new Promise((resolve) => setTimeout(resolve, 3500))
   while (gameStarted) {
+    startGameCountdown()
+    await new Promise((resolve) => setTimeout(resolve, 3500))
     while (gameTimer > 0) {
       let tempIndex = setMole()
       await new Promise((resolve) => setTimeout(resolve, 1500))
@@ -53,12 +53,13 @@ const startGame = async () => {
       gameTimer--
     }
     gameStarted = false
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+    endGame()
   }
-  await new Promise((resolve) => setTimeout(resolve, 1500))
-  endGame()
 }
 
 const startGameCountdown = async () => {
+  clearBoard()
   for (let i = 0; i < numberThree.length; i++) {
     boardgameBoxes[numberThree[i]].style.backgroundColor = `red`
   }
@@ -76,13 +77,15 @@ const startGameCountdown = async () => {
   clearBoard()
 }
 
-const endGame = () => {
+const endGame = async () => {
   for (let i = 0; i < xShape.length; i++) {
     boardgameBoxes[xShape[i]].style.backgroundColor = `red`
   }
+  await new Promise((resolve) => setTimeout(resolve, 5000))
+  clearBoard()
 }
 
-// Mole Pop-Up and disappear
+// Mole Pop-Up and Disappear
 const setMole = () => {
   randomIndex = Math.floor(Math.random() * boardgameBoxes.length)
   while (boardgameBoxesValues[randomIndex] === 1) {
