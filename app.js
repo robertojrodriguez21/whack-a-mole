@@ -21,14 +21,14 @@ let randomIndex = 0
 let gameStarted = false
 let score = 0
 let highScore = 0
-const boardgameBoxesValues = [
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-]
 const numberOne = [1, 2, 7, 12, 17, 21, 22, 23]
 const numberTwo = [1, 2, 8, 11, 12, 13, 16, 21, 22, 23]
 const numberThree = [1, 2, 3, 8, 11, 12, 13, 18, 21, 22, 23]
 const xShape = [0, 4, 6, 8, 12, 16, 18, 20, 24]
-
+// 0=Hole, 1=Mole, 2=Hit, 3=Miss
+const boardgameBoxesValues = [
+  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+]
 // Document Selectors
 const boardgameBoxes = document.querySelectorAll(`.boardgameBox`)
 const startGameButton = document.getElementById(`startGameButton`)
@@ -46,9 +46,17 @@ const startGame = async () => {
     await new Promise((resolve) => setTimeout(resolve, 3500))
     while (gameTimer > 0) {
       let tempIndex = setMole()
-      await new Promise((resolve) => setTimeout(resolve, 1500))
+      await new Promise((resolve) =>
+        setTimeout(resolve, setTimeoutLength(500, 1000))
+      )
+      console.log(`${boardgameBoxesValues}`)
+      let tempIndexTwo = setMole()
+      await new Promise((resolve) =>
+        setTimeout(resolve, setTimeoutLength(1000, 2000))
+      )
       console.log(`${boardgameBoxesValues}`)
       removeMole(tempIndex)
+      removeMole(tempIndexTwo)
 
       gameTimer--
     }
@@ -58,6 +66,36 @@ const startGame = async () => {
   }
 }
 
+// Sets Mole on Board
+const setMole = () => {
+  randomIndex = Math.floor(Math.random() * boardgameBoxes.length)
+  while (boardgameBoxesValues[randomIndex] === 1) {
+    randomIndex = Math.floor(Math.random() * boardgameBoxes.length)
+  }
+
+  boardgameBoxes[randomIndex].style.backgroundColor = `brown`
+  boardgameBoxesValues[randomIndex] = 1
+
+  return randomIndex
+}
+
+// Removes Mole from Board
+const removeMole = async (boxIndex) => {
+  if (boardgameBoxesValues[boxIndex] === 1) {
+    boardgameBoxesValues[boxIndex] = 3
+    boardgameBoxes[boxIndex].style.backgroundColor = `red`
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    setHole(boxIndex)
+  }
+}
+
+// Sets Hole on Board
+const setHole = (box) => {
+  boardgameBoxes[box].style.backgroundColor = `black`
+  boardgameBoxesValues[box] = 0
+}
+
+// Displays Countdown on Board Before Game
 const startGameCountdown = async () => {
   clearBoard()
   for (let i = 0; i < numberThree.length; i++) {
@@ -77,41 +115,13 @@ const startGameCountdown = async () => {
   clearBoard()
 }
 
+// Displays X on Board When Game Ends
 const endGame = async () => {
   for (let i = 0; i < xShape.length; i++) {
     boardgameBoxes[xShape[i]].style.backgroundColor = `red`
   }
   await new Promise((resolve) => setTimeout(resolve, 5000))
   clearBoard()
-}
-
-// Mole Pop-Up and Disappear
-const setMole = () => {
-  randomIndex = Math.floor(Math.random() * boardgameBoxes.length)
-  while (boardgameBoxesValues[randomIndex] === 1) {
-    randomIndex = Math.floor(Math.random() * boardgameBoxes.length)
-  }
-
-  boardgameBoxes[randomIndex].style.backgroundColor = `brown`
-  boardgameBoxesValues[randomIndex] = 1
-
-  return randomIndex
-}
-
-// Removes Mole After Timer
-const removeMole = async (boxIndex) => {
-  if (boardgameBoxesValues[boxIndex] === 1) {
-    boardgameBoxesValues[boxIndex] = 3
-    boardgameBoxes[boxIndex].style.backgroundColor = `red`
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setHole(boxIndex)
-  }
-}
-
-// Remove Mole and Set Hole
-const setHole = (box) => {
-  boardgameBoxes[box].style.backgroundColor = `black`
-  boardgameBoxesValues[box] = 0
 }
 
 // Reset Board and Score
@@ -121,6 +131,7 @@ const resetBoard = () => {
   clearBoard()
 }
 
+// Resets Board and Scores
 const resetGame = () => {
   resetBoard()
   highScore = 0
@@ -146,6 +157,13 @@ const scoreChange = () => {
   }
 }
 
+// Gets Random Number for Timeout Length
+const setTimeoutLength = (min, max) => {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 // Game Logic
 // Start Game
 startGameButton.addEventListener(`click`, () => {
@@ -159,7 +177,7 @@ startGameButton.addEventListener(`click`, () => {
 startOverButton.addEventListener(`click`, () => {
   resetBoard()
   if (gameStarted) {
-    gameStarted = false
+    gameStarted = true
     gameTimer = 10
     startGame()
   }
