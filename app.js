@@ -81,7 +81,7 @@ const announce = async (announceType) => {
     }
     await new Promise((resolve) => setTimeout(resolve, 1000))
     for (let i = 0; i < asides.length; i++) {
-      asides[i].innerHTML = `<div id=\`announcer\`>GO!</div>`
+      asides[i].innerHTML = `<div id=\`announcer\`>GO</div>`
     }
     await new Promise((resolve) => setTimeout(resolve, 1000))
     for (let i = 0; i < asides.length; i++) {
@@ -137,6 +137,9 @@ const resetGame = () => {
   score = 0
   highScoreText.innerHTML = highScore
   scoreText.innerHTML = score
+  for (let i = 0; i < asides.length; i++) {
+    asides[i].innerHTML = ``
+  }
 }
 
 // Clears Board and Values
@@ -197,3 +200,4 @@ for (let i = 0; i < boardgameBoxes.length; i++) {
     }
   })
 }
+clearBoard()
