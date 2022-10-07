@@ -21,15 +21,11 @@ let randomIndex = 0
 let gameStarted = false
 let score = 0
 let highScore = 0
-const numberOne = [1, 2, 7, 12, 17, 21, 22, 23]
-const numberTwo = [1, 2, 8, 11, 12, 13, 16, 21, 22, 23]
-const numberThree = [1, 2, 3, 8, 11, 12, 13, 18, 21, 22, 23]
-const xShape = [0, 4, 6, 8, 12, 16, 18, 20, 24]
-// 0=Hole, 1=Mole, 2=Hit, 3=Miss
 const boardgameBoxesValues = [
+  // 0=Hole, 1=Mole, 2=Hit, 3=Miss
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ]
-//Image URLs
+// Image URLs
 const holeImage = `images/hole.png`
 const moleImage = `images/mole.png`
 const moleHitImage = `images/moleHit.png`
@@ -41,11 +37,14 @@ const resetGameButton = document.getElementById(`resetGameButton`)
 const startOverButton = document.getElementById(`startOverButton`)
 const scoreText = document.getElementById(`scoreText`)
 const highScoreText = document.getElementById(`highScoreText`)
+const asides = document.querySelectorAll(`aside`)
 
 // Functions
 // Start Game
 const startGame = async () => {
   score = 0
+  announce(`start`)
+  await new Promise((resolve) => setTimeout(resolve, 3000))
   while (gameStarted) {
     while (gameTimer > 0) {
       let tempIndex = setMole()
@@ -57,13 +56,42 @@ const startGame = async () => {
       await new Promise((resolve) =>
         setTimeout(resolve, setTimeoutLength(1000, 2000))
       )
-      console.log(`${boardgameBoxesValues}`)
       removeMole(tempIndex)
       removeMole(tempIndexTwo)
 
       gameTimer--
     }
     gameStarted = false
+  }
+  announce(`end`)
+}
+
+// Game Start and Game Over Announcer
+const announce = async (announceType) => {
+  if (announceType === `start`) {
+    for (let i = 0; i < asides.length; i++) {
+      asides[i].innerHTML = `<div id=\`announcer\`>3</div>`
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    for (let i = 0; i < asides.length; i++) {
+      asides[i].innerHTML = `<div id=\`announcer\`>2</div>`
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    for (let i = 0; i < asides.length; i++) {
+      asides[i].innerHTML = `<div id=\`announcer\`>1</div>`
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    for (let i = 0; i < asides.length; i++) {
+      asides[i].innerHTML = `<div id=\`announcer\`>GO!</div>`
+    }
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    for (let i = 0; i < asides.length; i++) {
+      asides[i].innerHTML = ``
+    }
+  } else {
+    for (let i = 0; i < asides.length; i++) {
+      asides[i].innerHTML = `<div id=\`announcer\`>GAME OVER</div>`
+    }
   }
 }
 

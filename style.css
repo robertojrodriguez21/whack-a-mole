@@ -81,6 +81,7 @@ button {
 .boardgameBox img {
   height: 100px;
   width: 100px;
+  pointer-events: none;
 }
 
 footer {
@@ -149,4 +150,13 @@ footer #scores {
 
 footer #highScoreTitle, footer #scoreTitle, footer #highScoreText, footer #scoreText {
   padding: 5px;
+}
+
+aside {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 50px;
+  font-weight: bolder;
 }
