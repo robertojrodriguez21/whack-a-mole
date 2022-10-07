@@ -51,7 +51,6 @@ const startGame = async () => {
       await new Promise((resolve) =>
         setTimeout(resolve, setTimeoutLength(500, 1000))
       )
-      console.log(`${boardgameBoxesValues}`)
       let tempIndexTwo = setMole()
       await new Promise((resolve) =>
         setTimeout(resolve, setTimeoutLength(1000, 2000))

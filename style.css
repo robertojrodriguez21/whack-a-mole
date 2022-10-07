@@ -22,6 +22,7 @@ button {
 }
 
 /* Landing Page */
+/* Text */
 #landingTitle, #landingPlayGame {
   display: flex;
   justify-content: center;
@@ -31,6 +32,11 @@ button {
   font-weight: bolder;
 }
 
+#landingTitle {
+  font-size: 75px;
+}
+
+/* Button */
 #playGameButton {
   font-size: 20px;
   display: flex;
@@ -47,11 +53,8 @@ button {
   background-color: darkred;
 }
 
-#landingTitle {
-  font-size: 75px;
-}
-
 /* Game Page */
+/* Header */
 #header {
   display: flex;
   justify-content: center;
@@ -61,6 +64,7 @@ button {
   padding: 10px;
 }
 
+/* Board */
 #boardgame {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -84,6 +88,7 @@ button {
   pointer-events: none;
 }
 
+/* Footer */
 footer {
   display: flex, grid;
   justify-content:  center;
@@ -96,6 +101,7 @@ footer {
   padding: 10px;
 }
 
+/* Buttons */
 #game button {
   padding: 5px;
 }
@@ -130,7 +136,18 @@ footer {
   color: black;
 }
 
+/* Scores */
+footer #scores {
+  font-weight: bolder;
+  font-size: 25px;
+  padding: 0;
+}
 
+footer #highScoreTitle, footer #scoreTitle, footer #highScoreText, footer #scoreText {
+  padding: 5px;
+}
+
+/* Shared */
 header, footer {
   grid-column: span 3;
 }
@@ -142,16 +159,7 @@ header, footer {
   align-items: center;
 }
 
-footer #scores {
-  font-weight: bolder;
-  font-size: 25px;
-  padding: 0;
-}
-
-footer #highScoreTitle, footer #scoreTitle, footer #highScoreText, footer #scoreText {
-  padding: 5px;
-}
-
+/* Sides */
 aside {
   display: flex;
   justify-content: center;

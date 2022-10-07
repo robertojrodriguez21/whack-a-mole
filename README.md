@@ -20,7 +20,7 @@
 
 ### Setup
 
-#### There will be a grid filled with hole sprites. When a mole pops up the hole sprite will be replaced with the mole. Each time a user hits a mole the users score will go up; Depending on how fast the user hits the mole the score will be different.
+#### There will be a grid filled with hole sprites. When a mole pops up the hole sprite will be replaced with the mole. Each time a user hits a mole the users score will go up.
 
 #### When the game is done the users score will be recorded. If the user gets a new high score the current high score will be repalced with the new score. There will also ne a reset button to reset both current score and high score.
 
