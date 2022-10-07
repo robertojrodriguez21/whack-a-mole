@@ -135,8 +135,8 @@ const resetGame = () => {
   resetBoard()
   highScore = 0
   score = 0
-  highScoreText.innerHTML = highScore
-  scoreText.innerHTML = score
+  highScoreText.innerHTML = `0000`
+  scoreText.innerHTML = `0000`
   for (let i = 0; i < asides.length; i++) {
     asides[i].innerHTML = ``
   }
