@@ -72,12 +72,15 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: #426b1f solid 1px;
   height: 100px;
   width: 100px;
   margin: 10px;
-  background-color: black;
   border-radius: 50%;
+}
+
+.boardgameBox img {
+  height: 100px;
+  width: 100px;
 }
 
 footer {

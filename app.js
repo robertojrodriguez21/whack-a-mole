@@ -29,6 +29,11 @@ const xShape = [0, 4, 6, 8, 12, 16, 18, 20, 24]
 const boardgameBoxesValues = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 ]
+//Image URLs
+const holeImage = `images/hole.png`
+const moleImage = `images/mole.png`
+const moleHitImage = `images/moleHit.png`
+const moleEscapeImage = `images/moleEscape.png`
 // Document Selectors
 const boardgameBoxes = document.querySelectorAll(`.boardgameBox`)
 const startGameButton = document.getElementById(`startGameButton`)
@@ -42,8 +47,6 @@ const highScoreText = document.getElementById(`highScoreText`)
 const startGame = async () => {
   score = 0
   while (gameStarted) {
-    startGameCountdown()
-    await new Promise((resolve) => setTimeout(resolve, 3500))
     while (gameTimer > 0) {
       let tempIndex = setMole()
       await new Promise((resolve) =>
@@ -61,8 +64,6 @@ const startGame = async () => {
       gameTimer--
     }
     gameStarted = false
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-    endGame()
   }
 }
 
@@ -73,7 +74,7 @@ const setMole = () => {
     randomIndex = Math.floor(Math.random() * boardgameBoxes.length)
   }
 
-  boardgameBoxes[randomIndex].style.backgroundColor = `brown`
+  boardgameBoxes[randomIndex].innerHTML = `<img src=${moleImage}>`
   boardgameBoxesValues[randomIndex] = 1
 
   return randomIndex
@@ -83,7 +84,7 @@ const setMole = () => {
 const removeMole = async (boxIndex) => {
   if (boardgameBoxesValues[boxIndex] === 1) {
     boardgameBoxesValues[boxIndex] = 3
-    boardgameBoxes[boxIndex].style.backgroundColor = `red`
+    boardgameBoxes[boxIndex].innerHTML = `<img src=${moleEscapeImage}>`
     await new Promise((resolve) => setTimeout(resolve, 1000))
     setHole(boxIndex)
   }
@@ -91,40 +92,11 @@ const removeMole = async (boxIndex) => {
 
 // Sets Hole on Board
 const setHole = (box) => {
-  boardgameBoxes[box].style.backgroundColor = `black`
+  boardgameBoxes[box].innerHTML = `<img src=${holeImage}>`
   boardgameBoxesValues[box] = 0
 }
 
-// Displays Countdown on Board Before Game
-const startGameCountdown = async () => {
-  clearBoard()
-  for (let i = 0; i < numberThree.length; i++) {
-    boardgameBoxes[numberThree[i]].style.backgroundColor = `red`
-  }
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  clearBoard()
-  for (let i = 0; i < numberTwo.length; i++) {
-    boardgameBoxes[numberTwo[i]].style.backgroundColor = `yellow`
-  }
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  clearBoard()
-  for (let i = 0; i < numberOne.length; i++) {
-    boardgameBoxes[numberOne[i]].style.backgroundColor = `green`
-  }
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  clearBoard()
-}
-
-// Displays X on Board When Game Ends
-const endGame = async () => {
-  for (let i = 0; i < xShape.length; i++) {
-    boardgameBoxes[xShape[i]].style.backgroundColor = `red`
-  }
-  await new Promise((resolve) => setTimeout(resolve, 5000))
-  clearBoard()
-}
-
-// Reset Board and Score
+// Reset Board
 const resetBoard = () => {
   gameStarted = false
   gameTimer = 0
@@ -168,6 +140,7 @@ const setTimeoutLength = (min, max) => {
 // Start Game
 startGameButton.addEventListener(`click`, () => {
   if (!gameStarted) {
+    clearBoard()
     gameStarted = true
     gameTimer = 10
     startGame()
@@ -189,7 +162,7 @@ for (let i = 0; i < boardgameBoxes.length; i++) {
   boardgameBoxes[i].addEventListener(`click`, async () => {
     if (boardgameBoxesValues[i] === 1) {
       boardgameBoxesValues[i] = 2
-      boardgameBoxes[i].style.backgroundColor = `green`
+      boardgameBoxes[i].innerHTML = `<img src=${moleHitImage}>`
       scoreChange()
 
       await new Promise((resolve) => setTimeout(resolve, 500))
